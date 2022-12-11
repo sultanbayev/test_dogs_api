@@ -8,6 +8,7 @@ type BreedsListProps = {
 const BreedsList = ({ breeds }: BreedsListProps) => {
   return (
     <div className="list">
+      <h1>Breeds List:</h1>
       {breeds.map(({ name, path }) => (
         <BreedCard key={name} name={name} path={path} />
       ))}
