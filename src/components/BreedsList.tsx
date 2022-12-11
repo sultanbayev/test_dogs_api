@@ -1,9 +1,11 @@
-import useBreedsFetch from "../hooks/useBreedsFetch";
+import { Breed } from "../utils/types";
 import BreedCard from "./BreedCard";
 
-const BreedsList = () => {
-  const breeds = useBreedsFetch();
+type BreedsListProps = {
+  breeds: Breed[];
+};
 
+const BreedsList = ({ breeds }: BreedsListProps) => {
   return (
     <div className="list">
       {breeds.map(({ name, path }) => (

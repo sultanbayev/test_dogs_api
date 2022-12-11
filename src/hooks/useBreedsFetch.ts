@@ -1,25 +1,39 @@
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getBreeds } from "../utils/api";
-import { Breed } from "../utils/types";
+import { BreedsResponse } from "../utils/types";
 import { parseBreedsMessage } from "../utils/utils";
+import {
+  FetchBreedsAction,
+  fetchBreedsError,
+  fetchBreedsInit,
+  fetchBreedsSuccess,
+} from "./actions";
 
-const useBreedsFetch = () => {
-  const [breeds, setBreeds] = useState<Breed[]>([]);
+const useBreedsFetch = (dispatch: React.Dispatch<FetchBreedsAction>) => {
+  const onSuccess = (response: BreedsResponse) =>
+    fetchBreedsSuccess(parseBreedsMessage(response.message));
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { message } = await getBreeds();
-        setBreeds(parseBreedsMessage(message));
+        dispatch(fetchBreedsInit());
+        const response = await getBreeds();
+
+        if (response.status === "success") {
+          dispatch(onSuccess(response));
+        } else {
+          dispatch(fetchBreedsError());
+        }
       } catch (error) {
         console.error(error);
+        dispatch(fetchBreedsError());
       }
     };
 
     fetchData();
-  }, []);
 
-  return breeds;
+    //eslint-disable-next-line
+  }, []);
 };
 
 export default useBreedsFetch;
