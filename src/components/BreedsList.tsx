@@ -1,9 +1,9 @@
-import { Breed } from "../utils/types";
+import { Breed, onImagesRequest } from "../utils/types";
 import BreedCard from "./BreedCard";
 
 type BreedsListProps = {
   breeds: Breed[];
-  onImagesRequest: (id: string, path: string) => void;
+  onImagesRequest: onImagesRequest;
 };
 
 const BreedsList = ({ breeds, onImagesRequest }: BreedsListProps) => {

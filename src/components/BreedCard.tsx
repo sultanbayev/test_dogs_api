@@ -1,16 +1,23 @@
-import React from "react";
-import { Breed } from "../utils/types";
+import React, { useState } from "react";
+import { Breed, onImagesRequest } from "../utils/types";
 
 type BreedCardProps = {
   breed: Breed;
-  onImagesRequest: (id: string, path: string) => void;
+  onImagesRequest: onImagesRequest;
 };
 
 const BreedCard = ({ breed, onImagesRequest }: BreedCardProps) => {
   const { id, name, path, images } = breed;
 
+  const [controller, setController] = useState(new AbortController());
+
   const handleClick = () => {
-    onImagesRequest(id, path);
+    if (images.loading) {
+      controller.abort();
+      setController(new AbortController());
+    } else {
+      onImagesRequest(id, path, controller.signal);
+    }
   };
 
   return (

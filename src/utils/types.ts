@@ -24,3 +24,9 @@ export type AppState = {
   breeds: Breed[];
   error: boolean;
 };
+
+export type onImagesRequest = (
+  id: string,
+  path: string,
+  signal: AbortSignal
+) => void;

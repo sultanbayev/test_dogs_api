@@ -8,5 +8,10 @@ const api = axios.create({
 export const getBreeds = (): Promise<BreedsResponse> =>
   api.get("/breeds/list/all").then((response) => response.data);
 
-export const getBreedImages = (path: string): Promise<BreedImagesResponse> =>
-  api.get(`/breed/${path}/images/random/3`).then((response) => response.data);
+export const getBreedImages = (
+  path: string,
+  signal: AbortSignal
+): Promise<BreedImagesResponse> =>
+  api
+    .get(`/breed/${path}/images/random/3`, { signal })
+    .then((response) => response.data);
