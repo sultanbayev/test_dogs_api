@@ -3,14 +3,19 @@ import BreedCard from "./BreedCard";
 
 type BreedsListProps = {
   breeds: Breed[];
+  onImagesRequest: (id: string, path: string) => void;
 };
 
-const BreedsList = ({ breeds }: BreedsListProps) => {
+const BreedsList = ({ breeds, onImagesRequest }: BreedsListProps) => {
   return (
     <div className="list">
       <h1>Breeds List:</h1>
-      {breeds.map(({ name, path }) => (
-        <BreedCard key={name} name={name} path={path} />
+      {breeds.map((breed) => (
+        <BreedCard
+          key={breed.id}
+          breed={breed}
+          onImagesRequest={onImagesRequest}
+        />
       ))}
     </div>
   );

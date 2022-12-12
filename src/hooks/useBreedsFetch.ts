@@ -1,29 +1,20 @@
 import React, { useEffect } from "react";
 import { getBreeds } from "../utils/api";
-import { BreedsResponse } from "../utils/types";
-import { parseBreedsMessage } from "../utils/utils";
+import { parseMessage } from "../utils/utils";
 import {
-  FetchBreedsAction,
+  FetchBreedsActions,
   fetchBreedsError,
   fetchBreedsInit,
   fetchBreedsSuccess,
 } from "./actions";
 
-const useBreedsFetch = (dispatch: React.Dispatch<FetchBreedsAction>) => {
-  const onSuccess = (response: BreedsResponse) =>
-    fetchBreedsSuccess(parseBreedsMessage(response.message));
-
+const useBreedsFetch = (dispatch: React.Dispatch<FetchBreedsActions>) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
         dispatch(fetchBreedsInit());
         const response = await getBreeds();
-
-        if (response.status === "success") {
-          dispatch(onSuccess(response));
-        } else {
-          dispatch(fetchBreedsError());
-        }
+        dispatch(fetchBreedsSuccess(parseMessage(response.message)));
       } catch (error) {
         console.error(error);
         dispatch(fetchBreedsError());
